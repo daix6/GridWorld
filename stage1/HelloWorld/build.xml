@@ -1,11 +1,12 @@
 <project name="HelloWorld" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
+    <property name="test.dir"    value="test" />
     <property name="build.dir"   value="build" />
+    <property name="lib.dir"     value="lib" />
     <property name="classes.dir" value="${build.dir}/classes" />
 
     <property name="jar.dir"     value="${build.dir}/jar" />
-    <property name="lib.dir"     value="lib" />
 
     <property name="report.dir"  value="${build.dir}/junitreport" />
 
@@ -23,7 +24,6 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}" />
-        <mkdir dir="${lib.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
     </target>
 
@@ -45,31 +45,35 @@
         </java>
     </target>
 
-    <target name="junit" depends="jar">
-        <mkdir dir="${report.dir}"/>
+    <target name="compile-test">
+        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath,application" />
+    </target>
+
+    <target name="junit" depends="compile-test">
+        <mkdir dir="${report.dir}" />
         <junit printsummary="yes">
             <classpath>
-                <path refid="classpath"/>
-                <path refid="application"/>
+                <path refid="classpath" />
+                <path refid="application" />
             </classpath>
             
-            <formatter type="xml"/>
+            <formatter type="xml" />
             
             <batchtest fork="yes" todir="${report.dir}">
-                <fileset dir="${src.dir}" includes="*Test.java"/>
+                <fileset dir="${classes.dir}" includes="*Test.class" />
             </batchtest>
         </junit>
     </target>
     
-    <target name="junitreport">
+    <target name="report">
         <junitreport todir="${report.dir}">
-            <fileset dir="${report.dir}" includes="TEST-*.xml"/>
-            <report todir="${report.dir}"/>
+            <fileset dir="${report.dir}" includes="TEST-*.xml" />
+            <report todir="${report.dir}" />
         </junitreport>
     </target>
 
-    <target name="clean-build" depends="clean,jar"/>
+    <target name="clean-build" depends="clean,jar" />
 
-    <target name="main" depends="clean,run"/>
+    <target name="main" depends="clean,run" />
 
 </project>

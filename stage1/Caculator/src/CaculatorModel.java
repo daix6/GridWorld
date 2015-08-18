@@ -1,12 +1,18 @@
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+
 public class CaculatorModel extends Frame {
 
-  private TextField numberA, numberB;
-  private Label empty, opEqual, result;
-  private Button opPlus, opMinus, opMutiple, opDivide;
-  private Button btnOK;
+  private JTextField numberA, numberB;
+  private JLabel empty, opEqual, result;
+  private JButton opPlus, opMinus, opMutiple, opDivide;
+  private JButton btnOK;
 
   private double a, b;
   private String op;
@@ -15,34 +21,41 @@ public class CaculatorModel extends Frame {
 
     setLayout(new GridLayout(2, 5, 3, 3));
 
-    numberA = new TextField();
+    Border border = LineBorder.createGrayLineBorder();
+
+    numberA = new JTextField();
+    numberA.setHorizontalAlignment(JTextField.CENTER);
     add(numberA);
 
-    empty = new Label("");
+    empty = new JLabel("", JLabel.CENTER);
+    empty.setBorder(border);
     add(empty);
 
-    numberB = new TextField();
+    numberB = new JTextField();
+    numberB.setHorizontalAlignment(JTextField.CENTER);
     add(numberB);
 
-    opEqual = new Label("=", Label.CENTER);
+    opEqual = new JLabel("=", JLabel.CENTER);
+    opEqual.setBorder(border);
     add(opEqual);
 
-    result = new Label();
+    result = new JLabel("", JLabel.CENTER);
+    result.setBorder(border);
     add(result);
 
-    opPlus = new Button("+");
+    opPlus = new JButton("+");
     add(opPlus);
 
-    opMinus = new Button("-");
+    opMinus = new JButton("-");
     add(opMinus);
 
-    opMutiple = new Button("*");
+    opMutiple = new JButton("*");
     add(opMutiple);
 
-    opDivide = new Button("/");
+    opDivide = new JButton("/");
     add(opDivide);
 
-    btnOK = new Button("OK");
+    btnOK = new JButton("OK");
     add(btnOK);
 
     OpListener listener = new OpListener();
@@ -52,8 +65,15 @@ public class CaculatorModel extends Frame {
     opDivide.addActionListener(listener);
     btnOK.addActionListener(listener);
 
+    addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        System.exit(0);
+      }
+    });
+
     setTitle("Easy Caculator");
-    setSize(268, 109);
+    setSize(298, 129);
 
   }
 
@@ -67,32 +87,30 @@ public class CaculatorModel extends Frame {
         a = Double.parseDouble(numberA.getText());
         b = Double.parseDouble(numberB.getText());
         result.setText("" + caculate(a, op, b));
-        result.setAlignment(Label.CENTER);
+        result.setHorizontalAlignment(JLabel.CENTER);
 
       } else {
 
         op = btnLabel;
         empty.setText(op);
-        empty.setAlignment(Label.CENTER);
+        empty.setHorizontalAlignment(JLabel.CENTER);
 
       }
     }
+  }
 
-    private double caculate(double a, String op, double b) {
-
-      if (op.equals("+")) {
-        return a + b;
-      } else if (op.equals("-")) {
-        return a - b;
-      } else if (op.equals("*")) {
-        return a * b;
-      } else if (op.equals("/")) {
-        return a / b;
-      } else {
-        return Double.NaN;
-      }
+  public static double caculate(double a, String op, double b) {
+    if (op.equals("+")) {
+      return a + b;
+    } else if (op.equals("-")) {
+      return a - b;
+    } else if (op.equals("*")) {
+      return a * b;
+    } else if (op.equals("/")) {
+      return a / b;
+    } else {
+      return Double.NaN;
     }
-
   }
   
 }

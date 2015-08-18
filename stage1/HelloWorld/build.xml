@@ -1,4 +1,4 @@
-<project name="HelloWorld" basedir="." default="main">
+<project name="Caculator" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />
@@ -16,7 +16,12 @@
 
     <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
 
-    <property name="main-class"  value="HelloWorld" />
+    <path id="test-cp">
+        <path refid='classpath' />
+        <path location='${classes.dir}' />
+    </path>
+
+    <property name="main-class"  value="Caculator" />
 
     <target name="clean">
         <delete dir="${build.dir}" />
@@ -25,6 +30,10 @@
     <target name="compile">
         <mkdir dir="${classes.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
+    </target>
+
+    <target name="compile-test">
+        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" />
     </target>
 
     <target name="jar" depends="compile">
@@ -46,16 +55,13 @@
     </target>
 
     <target name="compile-test">
-        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath,application" />
+        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" />
     </target>
 
     <target name="junit" depends="compile-test">
         <mkdir dir="${report.dir}" />
         <junit printsummary="yes">
-            <classpath>
-                <path refid="classpath" />
-                <path refid="application" />
-            </classpath>
+            <classpath refid='test-cp' />
             
             <formatter type="xml" />
             

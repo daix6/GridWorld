@@ -1,3 +1,5 @@
+package caculator;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -82,7 +84,7 @@ public class CaculatorModel extends Frame {
     public void actionPerformed(ActionEvent e) {
       String btnLabel = e.getActionCommand();
 
-      if (btnLabel.equals("OK")) {
+      if ("OK".equals(btnLabel)) {
 
         a = Double.parseDouble(numberA.getText());
         b = Double.parseDouble(numberB.getText());
@@ -99,14 +101,14 @@ public class CaculatorModel extends Frame {
     }
   }
 
-  public static double caculate(double a, String op, double b) {
-    if (op.equals("+")) {
+  public static double caculate(double a, String opt, double b) {
+    if ("+".equals(opt)) {
       return a + b;
-    } else if (op.equals("-")) {
+    } else if ("-".equals(opt)) {
       return a - b;
-    } else if (op.equals("*")) {
+    } else if ("*".equals(opt)) {
       return a * b;
-    } else if (op.equals("/")) {
+    } else if ("/".equals(opt)) {
       return a / b;
     } else {
       return Double.NaN;

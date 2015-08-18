@@ -1,4 +1,4 @@
-<project name="Caculator" basedir="." default="main">
+<project name="HelloWorld" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />
@@ -21,7 +21,7 @@
         <path location='${classes.dir}' />
     </path>
 
-    <property name="main-class"  value="Caculator" />
+    <property name="main-class"  value="HelloWorld" />
 
     <target name="clean">
         <delete dir="${build.dir}" />
@@ -52,10 +52,6 @@
                 <path refid="application" />
             </classpath>
         </java>
-    </target>
-
-    <target name="compile-test">
-        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" />
     </target>
 
     <target name="junit" depends="compile-test">

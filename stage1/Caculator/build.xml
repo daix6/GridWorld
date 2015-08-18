@@ -46,7 +46,8 @@
     </target>
 
     <target name="run" depends="jar">
-        <java fork="true" classname="${main-class}">
+        <!-- Notice the caculator. -->
+        <java fork="true" classname="caculator.${main-class}">
             <classpath>
                 <path refid="classpath" />
                 <path refid="application" />

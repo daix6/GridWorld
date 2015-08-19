@@ -2,15 +2,46 @@
 
 Codes for GridWorld train program.
 
-### How
+### Ant
+
+In every folder which contains `build.xml`, run:
 
 ```bash
 ant         # compile and run
-ant compile # cimpile the source
-ant run     # run the file
-ant clean   # clean up
+ant junit   # run unit test in test/
+ant report  # generate junit report in build/junitreport/
 ```
 
-### Dependencies
+### Shell
 
-`junit-4.12.jar` and `hamcrest-core-1.3.jar`.
+In every folder which contains `short.sh`, run:
+
+```bash
+sh short.sh
+```
+
+### Sonar-cube (Linux)
+
+Before:
+
+```bash
+cd $SONAR_HOME
+./sonar.sh start
+```
+
+In every folder which contains `sonar-runner.properties`, run:
+
+```bash
+# In the project's root directory
+sonar-runner
+```
+
+After:
+
+```bash
+./sonar.sh stop
+```
+
+### Author
+
+* Shawn Dai

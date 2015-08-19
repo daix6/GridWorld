@@ -7,8 +7,11 @@ import java.awt.Color;
 /**
  * This class runs a world that contains Dancing bugs. <br />
  */
-public class DancingBugRunner
+public final class DancingBugRunner
 {
+    private DancingBugRunner() {
+    }
+
     public static void main(String[] args)
     {
         ActorWorld world = new ActorWorld();

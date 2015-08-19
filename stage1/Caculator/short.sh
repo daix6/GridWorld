@@ -1,4 +1,4 @@
 mkdir -p build/classes
 
-javac -sourcepath src/**/*.java -d build/classes src/*
-java -cp build/classes caculator.Caculator
+javac -cp .:lib/* -sourcepath src -d build/classes src/caculator/* test/*
+java -cp lib/*:build/classes org.junit.runner.JUnitCore CaculatorTest

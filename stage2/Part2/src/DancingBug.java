@@ -1,4 +1,3 @@
-import info.gridworld.grid.Location;
 import info.gridworld.actor.Bug;
 
 /**
@@ -16,7 +15,7 @@ public class DancingBug extends Bug
   public DancingBug(int[] turnsArray)
   {
     steps = 0;
-    turns = turnsArray;
+    turns = turnsArray.clone();
   }
 
   /**

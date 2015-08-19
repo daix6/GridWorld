@@ -6,8 +6,11 @@ import java.awt.Color;
 /**
  * This class runs a world that contains circle bugs. <br />
  */
-public class CircleBugRunner
+public final class CircleBugRunner
 {
+    private CircleBugRunner() {
+    }
+
     public static void main(String[] args)
     {
         ActorWorld world = new ActorWorld();

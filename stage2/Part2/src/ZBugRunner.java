@@ -6,8 +6,11 @@ import java.awt.Color;
 /**
  * This class runs a world that contains Z bugs. <br />
  */
-public class ZBugRunner
+public final class ZBugRunner
 {
+    private ZBugRunner() {
+    }
+
     public static void main(String[] args)
     {
         ActorWorld world = new ActorWorld();

@@ -6,8 +6,11 @@ import java.awt.Color;
 /**
  * This class runs a world that contains Spiral bugs. <br />
  */
-public class SpiralBugRunner
+public final class SpiralBugRunner
 {
+    private SpiralBugRunner() {
+    }
+
     public static void main(String[] args)
     {
         ActorWorld world = new ActorWorld();

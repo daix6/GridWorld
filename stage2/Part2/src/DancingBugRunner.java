@@ -9,17 +9,24 @@ import java.awt.Color;
  */
 public final class DancingBugRunner
 {
-    private DancingBugRunner() {
-    }
+  /**
+   * Empty construcor
+   */
+  private DancingBugRunner() {
+  }
 
-    public static void main(String[] args)
-    {
-        ActorWorld world = new ActorWorld();
-        int[] a = {3, 2, 3, 3, 2};
-        DancingBug alice = new DancingBug(a);
-        alice.setColor(Color.ORANGE);
-        world.add(new Location(3, 4), alice);
-        world.add(new Location(4, 4), new Rock());
-        world.show();
-    }
+  public static void main(String[] args)
+  {
+    ActorWorld world = new ActorWorld();
+    int[] a = {3, 2, 3, 3, 2};
+    DancingBug alice = new DancingBug(a);
+    alice.setColor(Color.ORANGE);
+    int[] b = {1, 2, 3, 4};
+    DancingBug bob = new DancingBug(b);
+    bob.setColor(Color.PINK);
+    world.add(new Location(3, 4), alice);
+    world.add(new Location(4, 4), new Rock());
+    world.add(new Location(6, 6), bob);
+    world.show();
+  }
 }

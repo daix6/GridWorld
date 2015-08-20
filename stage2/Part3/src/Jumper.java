@@ -20,7 +20,7 @@ public class Jumper extends Actor
    */
   public Jumper()
   {
-  	setColor(Color.GREEN);
+    setColor(Color.GREEN);
   }
 
   /**
@@ -28,37 +28,54 @@ public class Jumper extends Actor
    */
   public void move()
   {
-  	Grid<Actor> gr = getGrid();
-  	if (gr == null)
-  	  return;
-  	Location loc = getLocation();
-  	Location next = loc.getAdjacentLocation(getDirection());
-  	Location dest = next.getAdjacentLocation(getDirection());
+    Grid<Actor> gr = getGrid();
+    if (gr == null)
+    {
+      return;
+    }
+    Location loc = getLocation();
+    Location next = loc.getAdjacentLocation(getDirection());
+    Location dest = next.getAdjacentLocation(getDirection());
     if (gr.isValid(dest))
+    {
       moveTo(dest);
-    else
+    } else
+    {
       removeSelfFromGrid();
+    }
   }
+
+  /**
+   * Tests whether this bug can move forward into a location that is empty or
+   * contains a flower.
+   * @return true if this bug can move.
+   */
 
   public boolean canMove()
   {
     Grid<Actor> gr = getGrid();
     if (gr == null)
+    {
       return false;
+    }
     Location loc = getLocation();
     Location next = loc.getAdjacentLocation(getDirection());
     Location dest = next.getAdjacentLocation(getDirection());
     if (!gr.isValid(dest))
+    {
       return false;
+    }
 
     Actor neighbor = gr.get(dest);
     return (neighbor == null) || (neighbor instanceof Flower);
   }
 
+  /**
+   * Turns the bug 45 degrees to the right without changing its location.
+   */
   public void turn() {
     setDirection(getDirection() + Location.HALF_RIGHT);
   }
-
 
   /**
    * Moves to the next location of the square.
@@ -67,8 +84,12 @@ public class Jumper extends Actor
   public void act()
   {
     if (canMove())
+    {
       move();
+    }
     else
+    {
       turn();
+    }
   }
 }

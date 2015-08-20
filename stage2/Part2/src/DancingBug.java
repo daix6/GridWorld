@@ -29,7 +29,6 @@ public class DancingBug extends Bug
     }
   }
 
-
   /**
    * Moves to the next location of the square.
    */

@@ -64,6 +64,7 @@ public class ChameleonCritter extends Critter
   /**
    * Darken the color of ChameleonCritter by decrease the original color's
    * RGB.
+   * @param c color to be darkened
    */
   public void darken(Color c)
   {

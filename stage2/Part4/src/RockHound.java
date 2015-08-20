@@ -30,12 +30,12 @@ public class RockHound extends Critter {
   @Override
   public void processActors(ArrayList<Actor> actors)
   {
-  	for (Actor a : actors)
-  	{
-  	  if (a instanceof Rock)
-  	  {
-  	  	a.removeSelfFromGrid();
-  	  }
-  	}
+    for (Actor a : actors)
+    {
+      if (a instanceof Rock)
+      {
+        a.removeSelfFromGrid();
+      }
+    }
   }
 }

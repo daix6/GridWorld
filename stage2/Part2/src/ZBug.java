@@ -35,6 +35,7 @@ public class ZBug extends Bug
     }
     else
     {
+      if (!canMove()) return;
       steps = 0;
       z++;
       if (z == 1) {

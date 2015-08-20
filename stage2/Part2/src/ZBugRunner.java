@@ -16,7 +16,7 @@ public final class ZBugRunner
         ActorWorld world = new ActorWorld();
         ZBug alice = new ZBug(4);
         alice.setColor(Color.ORANGE);
-        world.add(new Location(7, 8), alice);
+        world.add(new Location(3, 3), alice);
         world.show();
     }
 }

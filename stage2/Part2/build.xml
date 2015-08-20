@@ -1,4 +1,4 @@
-<project name="CircleBugRunner" basedir="." default="main">
+<project name="AllBugsRunner" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />
@@ -21,7 +21,7 @@
         <path location='${classes.dir}' />
     </path>
 
-    <property name="main-class"  value="CircleBugRunner" />
+    <property name="main-class"  value="AllBugsRunner" />
 
     <target name="clean">
         <delete dir="${build.dir}" />

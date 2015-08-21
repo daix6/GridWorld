@@ -24,8 +24,8 @@ public class Jumper extends Actor
   }
 
   /**
-   * Constructs a jumper that traces a square of a given side length
-   * @param length the side length
+   * Constructs a jumper define custom color
+   * @param c the jumper's color
    */
   public Jumper(Color c)
   {
@@ -46,13 +46,8 @@ public class Jumper extends Actor
     Location loc = getLocation();
     Location next = loc.getAdjacentLocation(getDirection());
     Location dest = next.getAdjacentLocation(getDirection());
-    if (gr.isValid(dest))
-    {
-      moveTo(dest);
-    } else
-    {
-      removeSelfFromGrid();
-    }
+    
+    moveTo(dest);
   }
 
   /**

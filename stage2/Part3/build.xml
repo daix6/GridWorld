@@ -33,6 +33,7 @@
     </target>
 
     <target name="compile-test">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
         <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" />
     </target>
 
@@ -67,7 +68,7 @@
         </junit>
     </target>
     
-    <target name="report">
+    <target name="report" depends="junit">
         <junitreport todir="${report.dir}">
             <fileset dir="${report.dir}" includes="TEST-*.xml" />
             <report todir="${report.dir}" />

@@ -15,12 +15,22 @@ public class Jumper extends Actor
 {
 
   /**
-   * Constructs a circle bug that traces a square of a given side length
-   * @param length the side length
+   * Constructs a jumper
    */
   public Jumper()
   {
     setColor(Color.GREEN);
+    setDirection(Location.NORTH);
+  }
+
+  /**
+   * Constructs a jumper that traces a square of a given side length
+   * @param length the side length
+   */
+  public Jumper(Color c)
+  {
+    setColor(c);
+    setDirection(Location.NORTH);
   }
 
   /**
@@ -50,7 +60,6 @@ public class Jumper extends Actor
    * contains a flower.
    * @return true if this bug can move.
    */
-
   public boolean canMove()
   {
     Grid<Actor> gr = getGrid();

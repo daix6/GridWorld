@@ -1,4 +1,4 @@
-<project name="JumperRunner" basedir="." default="main">
+<project name="AllCrittersRunner" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />
@@ -21,7 +21,7 @@
         <path location='${classes.dir}' />
     </path>
 
-    <property name="main-class"  value="JumperRunner" />
+    <property name="main-class"  value="AllCrittersRunner" />
 
     <target name="clean">
         <delete dir="${build.dir}" />

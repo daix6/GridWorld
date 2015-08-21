@@ -29,6 +29,9 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}" />
+        <copy todir="${classes.dir}">
+            <fileset dir="assets" />
+        </copy>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
     </target>
 

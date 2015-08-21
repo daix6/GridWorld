@@ -5,8 +5,7 @@ import info.gridworld.grid.Location;
 import java.awt.Color;
 
 /**
- * This class runs a world that contains chameleon critters. <br />
- * This class is not tested on the AP CS A and AB exams.
+ * This class runs a world that contains bluster critters. <br />
  */
 public final class BlusterCritterRunner
 {

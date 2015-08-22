@@ -3,14 +3,17 @@ import info.gridworld.grid.Location;
 import info.gridworld.grid.AbstractGrid;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class SparseBoundedGrid<E> extends AbstractGrid<E> {
+public class SparseBoundedGrid1<E> extends AbstractGrid<E> {
 
-  private SparseGridNode[] occupants;
+  private ArrayList<LinkedList<OccupantInCol>> occupants;
+  // LinkedList<OccupantInCol> occupants = new LinkedList<OccupantInCol>[5]
+  // cause error: error: generic array creation
   private int rows;
   private int cols;
-  
-  public SparseBoundedGrid(int rows, int cols)
+
+  public SparseBoundedGrid1(int rows, int cols)
   {
     if (rows <= 0)
       throw new IllegalArgumentException("rows <= 0");
@@ -18,7 +21,11 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
       throw new IllegalArgumentException("cols <= 0");
     this.rows = rows;
     this.cols = cols;
-    this.occupants = new SparseGridNode[rows];
+    this.occupants = new ArrayList<LinkedList<OccupantInCol>>();
+    for (int i = 0; i < rows; i++)
+    {
+      this.occupants.add(new LinkedList<OccupantInCol>());
+    }
   }
 
   public int getNumRows()
@@ -40,13 +47,12 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
   public ArrayList<Location> getOccupiedLocations()
   {
     ArrayList<Location> locs = new ArrayList<Location>();
-    for (int i = 0; i < getNumRows(); i++)
+    for (int i = 0, length = getNumRows(); i < length; i++)
     {
-      SparseGridNode start = occupants[i];
-      while (start != null)
+      LinkedList<OccupantInCol> row = occupants.get(i);
+      for (int j = 0, size = row.size(); j < size; j++)
       {
-        locs.add(new Location(i, start.getCol()));
-        start = start.getNext();
+      	locs.add(new Location(i, row.get(j).getCol()));
       }
     }
     return locs;
@@ -60,17 +66,17 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
         + " is not valid");
     }
 
-    SparseGridNode start = occupants[loc.getRow()];
+    int row = loc.getRow();
+    int col = loc.getCol();
 
-    while (start != null)
+    LinkedList<OccupantInCol> list = occupants.get(row);
+    for (int j = 0, size = list.size(); j < size; j++)
     {
-      if (start.getCol() == loc.getCol())
+      if (list.get(j).getCol() == col)
       {
-        return (E) start.getOccupant();
+        return (E) list.get(j).getOccupant();
       }
-      start = start.getNext();
     }
-
     return null;
   }
 
@@ -87,11 +93,7 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
     }
 
     E old = remove(loc);
-
-    SparseGridNode start = occupants[loc.getRow()];
-    SparseGridNode node = new SparseGridNode(obj, loc.getCol(), start);
-    occupants[loc.getRow()] = node;
-
+    occupants.get(loc.getRow()).addFirst(new OccupantInCol(obj, loc.getCol()));
     return old;
   }
 
@@ -102,33 +104,18 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
       throw new IllegalArgumentException("Location " + loc
         + " is not valid");
     }
+    int col = loc.getCol();
 
-  if (occupants[loc.getRow()] == null)
+    LinkedList<OccupantInCol> list = occupants.get(loc.getRow());
+    for (int j = 0, size = list.size(); j < size; j++)
     {
-      return null;
-    }
-
-    SparseGridNode pre = null;
-    SparseGridNode start = occupants[loc.getRow()];
-    E old;
-
-    while (start != null)
-    {
-      if (start.getCol() == loc.getCol())
+      if (list.get(j).getCol() == col)
       {
-      	old = (E) start.getOccupant();
-        if (pre == null) {
-          occupants[loc.getRow()] = start.getNext();
-        } else
-        {
-          pre.setNext(start.getNext());
-        }
-        return old;
+        return (E) (list.remove(j).getOccupant());
       }
-      pre = start;
-      start = start.getNext();
     }
     return null;
   }
+
 
 }

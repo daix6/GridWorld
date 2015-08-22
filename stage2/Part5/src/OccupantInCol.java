@@ -1,13 +1,11 @@
-public class SparseGridNode {
+public class OccupantInCol {
   private Object occupant;
   private int col;
-  private SparseGridNode next;
 
-  public SparseGridNode(Object occupant, int col, SparseGridNode next)
+  public OccupantInCol(Object obj, int col)
   {
-    this.occupant = occupant;
+    this.occupant = obj;
     this.col = col;
-    this.next = next;
   }
 
   public void setOccupant(Object occupant)
@@ -28,16 +26,6 @@ public class SparseGridNode {
   public int getCol()
   {
     return this.col;
-  }
-
-  public void setNext(SparseGridNode next)
-  {
-    this.next = next;
-  }
-
-  public SparseGridNode getNext()
-  {
-    return this.next;
   }
 
 }

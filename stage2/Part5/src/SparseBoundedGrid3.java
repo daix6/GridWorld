@@ -16,9 +16,13 @@ public class SparseBoundedGrid3<E> extends AbstractGrid<E> {
   public SparseBoundedGrid3(int rows, int cols)
   {
     if (rows <= 0)
+    {
       throw new IllegalArgumentException("rows <= 0");
+    }
     if (cols <= 0)
+    {
       throw new IllegalArgumentException("cols <= 0");
+    }
     this.rows = rows;
     this.cols = cols;
     this.occupants = new UnboundedGrid<E>();

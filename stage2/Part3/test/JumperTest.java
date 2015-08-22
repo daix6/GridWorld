@@ -5,11 +5,9 @@ import org.junit.Before;
 import org.junit.After;
 
 // import dependecies
-import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import info.gridworld.grid.BoundedGrid;
 import info.gridworld.actor.ActorWorld;
-import info.gridworld.actor.Actor;
 import info.gridworld.actor.Rock;
 import info.gridworld.actor.Flower;
 import info.gridworld.actor.Bug;
@@ -17,8 +15,11 @@ import info.gridworld.actor.Bug;
 import java.awt.Color;
 
 public class JumperTest {
-  ActorWorld world;
-  Jumper j, j2;
+  private ActorWorld world;
+  private Jumper j, j2;
+
+  static public final String WILLTURN = "The jumper will turn";
+  static public final String JUMPERDIRECTION = "The jumper's direction should be";
 
   // init before
   @Before
@@ -33,16 +34,16 @@ public class JumperTest {
   @After
   public void tearDown() throws Exception
   {
-  	this.world = null;
-  	this.j = null;
-  	this.j2 = null;
+    this.world = null;
+    this.j = null;
+    this.j2 = null;
   }
 
   @Test
   public void testConstructor()
   {
-  	assertEquals(j.getColor(), Color.GREEN);
-  	assertEquals(j.getDirection(), Location.NORTH);
+    assertEquals(j.getColor(), Color.GREEN);
+    assertEquals(j.getDirection(), Location.NORTH);
   }
 
   // What will a jumper do if the location in front of it is empty,
@@ -51,24 +52,24 @@ public class JumperTest {
   @Test
   public void testTwoCellsInFrontOccupied()
   {
-  	// test rock
-  	Rock rock = new Rock();
-  	world.add(new Location(5, 5), j);
-  	world.add(new Location(3, 5), rock);
-  	j.act();
-  	assertEquals("The jumper doesn't jump onto rocks", rock.getLocation().getRow(), 3);
-  	assertEquals("The jumper doesn't jump onto rocks", rock.getLocation().getCol(), 5);
-  	assertEquals("The jumper will turn", j.getDirection(), Location.NORTHEAST);
+    // test rock
+    Rock rock = new Rock();
+    world.add(new Location(5, 5), j);
+    world.add(new Location(3, 5), rock);
+    j.act();
+    assertEquals("The jumper doesn't jump onto rocks", rock.getLocation().getRow(), 3);
+    assertEquals("The jumper doesn't jump onto rocks", rock.getLocation().getCol(), 5);
+    assertEquals(WILLTURN, j.getDirection(), Location.NORTHEAST);
 
-  	// test flower
-  	Flower flower = new Flower();
-  	world.add(new Location(5, 7), flower);
-  	j.setDirection(Location.EAST);
-  	j.act();
-  	assertEquals("The jumper does jump onto flowers", j.getLocation().getRow(), 5);
-  	assertEquals("The jumper does jump onto flowers", j.getLocation().getCol(), 7);
-  	assertEquals("The jumper will turn", j.getDirection(), Location.EAST);
-  	assertNull("The flower will disappear", flower.getGrid());
+    // test flower
+    Flower flower = new Flower();
+    world.add(new Location(5, 7), flower);
+    j.setDirection(Location.EAST);
+    j.act();
+    assertEquals("The jumper does jump onto flowers", j.getLocation().getRow(), 5);
+    assertEquals("The jumper does jump onto flowers", j.getLocation().getCol(), 7);
+    assertEquals(WILLTURN, j.getDirection(), Location.EAST);
+    assertNull("The flower will disappear", flower.getGrid());
   }
 
   // What will a jumper do if the location two cells 
@@ -80,9 +81,9 @@ public class JumperTest {
   {
     world.add(new Location(1, 1), j);
     j.act();
-    assertEquals("The jumper will turn", j.getLocation().getRow(), 1);
-    assertEquals("The jumper will turn", j.getLocation().getCol(), 1);
-    assertEquals("The jumper's direction", j.getDirection(), Location.NORTHEAST);
+    assertEquals(WILLTURN, j.getLocation().getRow(), 1);
+    assertEquals(WILLTURN, j.getLocation().getCol(), 1);
+    assertEquals(JUMPERDIRECTION, j.getDirection(), Location.NORTHEAST);
   }
 
   // What will a jumper do if it is facing an edge of the grid?
@@ -93,9 +94,9 @@ public class JumperTest {
   {
     world.add(new Location(0, 0), j);
     j.act();
-    assertEquals("The jumper will turn", j.getLocation().getRow(), 0);
-    assertEquals("The jumper will turn", j.getLocation().getCol(), 0);
-    assertEquals("The jumper's direction", j.getDirection(), Location.NORTHEAST);
+    assertEquals(WILLTURN, j.getLocation().getRow(), 0);
+    assertEquals(WILLTURN, j.getLocation().getCol(), 0);
+    assertEquals(JUMPERDIRECTION, j.getDirection(), Location.NORTHEAST);
   }
 
   // What will a jumper do if another actor (not a flower
@@ -105,14 +106,14 @@ public class JumperTest {
   @Test
   public void testActor()
   {
-  	Bug bug = new Bug();
-  	world.add(new Location(5, 5), j);
-  	world.add(new Location(3, 5), bug);
+    Bug bug = new Bug();
+    world.add(new Location(5, 5), j);
+    world.add(new Location(3, 5), bug);
 
-  	j.act();
-    assertEquals("The jumper will turn", j.getLocation().getRow(), 5);
-    assertEquals("The jumper will turn", j.getLocation().getCol(), 5);
-    assertEquals("The jumper's direction", j.getDirection(), Location.NORTHEAST);
+    j.act();
+    assertEquals(WILLTURN, j.getLocation().getRow(), 5);
+    assertEquals(WILLTURN, j.getLocation().getCol(), 5);
+    assertEquals(JUMPERDIRECTION, j.getDirection(), Location.NORTHEAST);
     assertNotNull("The actor should still be there", bug.getGrid());
   }
 
@@ -122,10 +123,10 @@ public class JumperTest {
   @Test
   public void testJumper()
   {
-  	world.add(new Location(6, 6), j);
-  	world.add(new Location(5, 6), j2);
+    world.add(new Location(6, 6), j);
+    world.add(new Location(5, 6), j2);
 
-  	j.act();
+    j.act();
 
     assertEquals("The jumper will jump over jumper2", j.getLocation().getRow(), 4);
     assertEquals("The jumper will jump over jumper2", j.getLocation().getCol(), 6);
@@ -140,8 +141,8 @@ public class JumperTest {
 
     j3.act();
 
-    assertEquals("The jumper will turn", j3.getLocation().getRow(), 10);
-    assertEquals("The jumper will turn", j3.getLocation().getCol(), 10);
-    assertEquals("The jumper's direction", j3.getDirection(), Location.NORTHEAST);
+    assertEquals(WILLTURN, j3.getLocation().getRow(), 10);
+    assertEquals(WILLTURN, j3.getLocation().getCol(), 10);
+    assertEquals(JUMPERDIRECTION, j3.getDirection(), Location.NORTHEAST);
   }
 }

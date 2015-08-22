@@ -15,9 +15,13 @@ public class SparseBoundedGrid2<E> extends AbstractGrid<E> {
   public SparseBoundedGrid2(int rows, int cols)
   {
     if (rows <= 0)
+    {
       throw new IllegalArgumentException("rows <= 0");
+    }
     if (cols <= 0)
+    {
       throw new IllegalArgumentException("cols <= 0");
+    }
     this.rows = rows;
     this.cols = cols;
     this.occupants = new HashMap<Location, E>();
@@ -75,7 +79,7 @@ public class SparseBoundedGrid2<E> extends AbstractGrid<E> {
     }
     if (obj == null)
     {
-     throw new NullPointerException("obj == null");
+     throw new IllegalArgumentException("obj == null");
     }
 
     return this.occupants.put(loc, (E) obj);

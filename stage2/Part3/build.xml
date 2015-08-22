@@ -30,10 +30,6 @@
     <target name="compile">
         <mkdir dir="${classes.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
-    </target>
-
-    <target name="compile-test">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
         <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" />
     </target>
 
@@ -55,7 +51,7 @@
         </java>
     </target>
 
-    <target name="junit" depends="compile-test">
+    <target name="junit" depends="compile">
         <mkdir dir="${report.dir}" />
         <junit printsummary="yes">
             <classpath refid='test-cp' />

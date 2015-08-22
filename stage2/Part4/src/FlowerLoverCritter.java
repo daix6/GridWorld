@@ -2,7 +2,6 @@ import info.gridworld.actor.Actor;
 import info.gridworld.actor.Critter;
 import info.gridworld.actor.Flower;
 import info.gridworld.grid.Location;
-import info.gridworld.grid.Grid;
 
 import java.util.ArrayList;
 import java.awt.Color;
@@ -30,6 +29,7 @@ public class FlowerLoverCritter extends Critter {
     setColor(c);
   }
 
+  // process anything but flower
   @Override
   public void processActors(ArrayList<Actor> actors)
   {
@@ -42,23 +42,7 @@ public class FlowerLoverCritter extends Critter {
     }
   }
 
-  @Override
-  public ArrayList<Location> getMoveLocations()
-  {
-    ArrayList<Location> all = getGrid().getEmptyAdjacentLocations(getLocation());
-    ArrayList<Location> locs = new ArrayList<Location>();
-
-    Grid gr = getGrid();
-    for (Location loc : all)
-    {
-      if (!(gr.get(loc) instanceof Flower))
-      {
-        locs.add(loc);
-      }
-    }
-    return locs;
-  }
-
+  // if n == 0 return null rather than current location
   @Override
   public Location selectMoveLocation(ArrayList<Location> locs)
   {
@@ -71,6 +55,7 @@ public class FlowerLoverCritter extends Critter {
     return locs.get(r);
   }
 
+  // if loc == null, remove self; otherwise, move and leave flower behind
   @Override
   public void makeMove(Location loc)
   {

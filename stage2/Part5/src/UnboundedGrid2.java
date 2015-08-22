@@ -68,7 +68,7 @@ public class UnboundedGrid2<E> extends AbstractGrid<E> {
 
     if (obj == null)
     {
-     throw new NullPointerException("obj == null");
+     throw new IllegalArgumentException("obj == null");
     }
 
     E old;

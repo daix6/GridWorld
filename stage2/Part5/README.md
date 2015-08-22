@@ -9,7 +9,7 @@
 * src/SparseBoundedGrid2.java
     * Use HashMap
 * src/SparseBoundedGrid3.java
-    * Extend UnboundedGrid
+    * Use UnboundedGrid
 * src/UnboundedGrid2.java
     * New UnboundedGrid...
 

@@ -13,9 +13,13 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
   public SparseBoundedGrid(int rows, int cols)
   {
     if (rows <= 0)
+    {
       throw new IllegalArgumentException("rows <= 0");
+    }
     if (cols <= 0)
+    {
       throw new IllegalArgumentException("cols <= 0");
+    }
     this.rows = rows;
     this.cols = cols;
     this.occupants = new SparseGridNode[rows];
@@ -89,7 +93,7 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
     }
     if (obj == null)
     {
-     throw new NullPointerException("obj == null");
+     throw new IllegalArgumentException("obj == null");
     }
 
     E old = remove(loc);

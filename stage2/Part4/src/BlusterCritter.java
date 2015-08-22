@@ -48,14 +48,14 @@ public class BlusterCritter extends Critter {
 
     Location loc = getLocation();
 
-    int row_s = loc.getRow() - 2;
-    int row_e = loc.getRow() + 2;
-    int col_s = loc.getCol() - 2;
-    int col_e = loc.getCol() + 2;
+    int rowS = loc.getRow() - 2;
+    int rowE = loc.getRow() + 2;
+    int colS = loc.getCol() - 2;
+    int colE = loc.getCol() + 2;
 
-    for ( int i = row_s; i < row_e; i++)
+    for ( int i = rowS; i < rowE; i++)
     {
-      for ( int j = col_s; j < col_e; j++)
+      for ( int j = colS; j < colE; j++)
       {
         Location tempLoc = new Location(i, j);
         if (gr.isValid(tempLoc))

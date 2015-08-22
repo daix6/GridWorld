@@ -28,25 +28,23 @@ public class ZBug extends Bug
   @Override
   public void act()
   {
-    if ( z <= 2 && steps < sideLength && canMove())
+    if (steps < sideLength && z <= 2)
     {
-      move();
-      steps++;
-    }
-    else
-    {
-      if (!canMove())
+      if (canMove())
       {
-        return;
+        move();
+        steps++;
       }
-      steps = 0;
+    } else if (z == 0)
+    {
+      setDirection(Location.SOUTHWEST);
       z++;
-      if (z == 1) {
-        setDirection(Location.SOUTHWEST);
-      } else if (z == 2)
-      {
-        setDirection(Location.EAST);
-      }
+      steps = 0;
+    } else if (z == 1)
+    {
+      setDirection(Location.EAST);
+      z++;
+      steps = 0;
     }
   }
 }

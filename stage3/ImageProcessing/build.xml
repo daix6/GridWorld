@@ -1,5 +1,4 @@
-<!-- change the critter runner name at name attribute -->
-<project name="AllCrittersRunner" basedir="." default="main">
+<project name="AllBugsRunner" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />
@@ -22,7 +21,7 @@
         <path location='${classes.dir}' />
     </path>
 
-    <property name="main-class"  value="${ant.project.name}" />
+    <property name="main-class"  value="AllBugsRunner" />
 
     <target name="clean">
         <delete dir="${build.dir}" />
@@ -34,6 +33,7 @@
             <fileset dir="assets" />
         </copy>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
+        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" />
     </target>
 
     <target name="jar" depends="compile">

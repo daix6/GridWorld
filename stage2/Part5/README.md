@@ -9,7 +9,9 @@
 * src/SparseBoundedGrid2.java
     * Use HashMap
 * src/SparseBoundedGrid3.java
-    * Use TreeMap
+    * Extend UnboundedGrid
+* src/UnboundedGrid2.java
+    * New UnboundedGrid...
 
 ### How to Run
 

@@ -8,8 +8,11 @@ import info.gridworld.actor.Bug;
 /**
 * This class runs a world with additional sparse bounded grid choices.
 */
-public class SparseGridRunner
+public final class SparseGridRunner
 {
+  private SparseGridRunner()
+  {
+  }
   public static void main(String[] args)
   {
     ActorWorld world = new ActorWorld();
@@ -17,7 +20,8 @@ public class SparseGridRunner
     world.addGridClass("SparseBoundedGrid1");
     world.addGridClass("SparseBoundedGrid2");
     world.addGridClass("SparseBoundedGrid3");
-    world.setGrid(new SparseBoundedGrid3<Actor>(5, 5));
+    world.addGridClass("UnboundedGrid2");
+    world.setGrid(new SparseBoundedGrid3<Actor>(10, 10));
     world.add(new Location(2, 3), new Bug());
     world.add(new Location(2, 2), new Critter());
     world.show();

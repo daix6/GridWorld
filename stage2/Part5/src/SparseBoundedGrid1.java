@@ -28,22 +28,26 @@ public class SparseBoundedGrid1<E> extends AbstractGrid<E> {
     }
   }
 
+  @Override
   public int getNumRows()
   {
     return this.rows;
   }
 
+  @Override
   public int getNumCols()
   {
     return this.cols;
   }
 
+  @Override
   public boolean isValid(Location loc)
   {
     return 0 <= loc.getRow() && loc.getRow() < getNumRows()
             && 0 <= loc.getCol() && loc.getCol() < getNumCols();
   }
 
+  @Override
   public ArrayList<Location> getOccupiedLocations()
   {
     ArrayList<Location> locs = new ArrayList<Location>();
@@ -58,6 +62,7 @@ public class SparseBoundedGrid1<E> extends AbstractGrid<E> {
     return locs;
   }
 
+  @Override
   public E get(Location loc)
   {
     if (!isValid(loc))
@@ -80,6 +85,7 @@ public class SparseBoundedGrid1<E> extends AbstractGrid<E> {
     return null;
   }
 
+  @Override
   public E put(Location loc, Object obj)
   {
     if (!isValid(loc))
@@ -97,6 +103,7 @@ public class SparseBoundedGrid1<E> extends AbstractGrid<E> {
     return old;
   }
 
+  @Override
   public E remove(Location loc)
   {
     if (!isValid(loc))
@@ -116,6 +123,4 @@ public class SparseBoundedGrid1<E> extends AbstractGrid<E> {
     }
     return null;
   }
-
-
 }

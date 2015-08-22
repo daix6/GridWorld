@@ -21,7 +21,7 @@ public final class JumperRunner
 
   public static void main(String[] args)
   {
-    ActorWorld world = new ActorWorld(new BoundedGrid(55, 55));
+    ActorWorld world = new ActorWorld(new BoundedGrid(35, 35));
 
     Jumper alice = new Jumper();
     alice.setColor(Color.ORANGE);

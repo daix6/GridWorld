@@ -15,7 +15,9 @@ public class SparseGridRunner
     ActorWorld world = new ActorWorld();
     world.addGridClass("SparseBoundedGrid");
     world.addGridClass("SparseBoundedGrid1");
-    world.setGrid(new SparseBoundedGrid1<Actor>(5, 5));
+    world.addGridClass("SparseBoundedGrid2");
+    world.addGridClass("SparseBoundedGrid3");
+    world.setGrid(new SparseBoundedGrid3<Actor>(5, 5));
     world.add(new Location(2, 3), new Bug());
     world.add(new Location(2, 2), new Critter());
     world.show();

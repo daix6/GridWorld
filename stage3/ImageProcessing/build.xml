@@ -1,4 +1,4 @@
-<project name="AllBugsRunner" basedir="." default="main">
+<project name="Image" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />

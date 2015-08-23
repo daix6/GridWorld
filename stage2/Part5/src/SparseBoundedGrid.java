@@ -4,12 +4,25 @@ import info.gridworld.grid.AbstractGrid;
 
 import java.util.ArrayList;
 
+/**
+ * class SparseBoundedGrid
+ * An implementation of BoundedGrid with the help of raw SparseGridNode.
+ * 
+ * @author Shawn Dai
+ */
 public class SparseBoundedGrid<E> extends AbstractGrid<E> {
 
   private SparseGridNode[] occupants;
   private int rows;
   private int cols;
   
+  /**
+   * Constructor
+   * @param rows
+   *             the grid max rows
+   * @param cols
+   *             the grid max columns
+   */
   public SparseBoundedGrid(int rows, int cols)
   {
     if (rows <= 0)
@@ -25,12 +38,14 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
     this.occupants = new SparseGridNode[rows];
   }
 
+  // return the rows of the grid
   @Override
   public int getNumRows()
   {
     return this.rows;
   }
 
+  // return the cols of grid
   @Override
   public int getNumCols()
   {
@@ -63,11 +78,7 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
   @Override
   public E get(Location loc)
   {
-    if (!isValid(loc))
-    {
-      throw new IllegalArgumentException("Location " + loc
-        + " is not valid");
-    }
+    checkForValidLocation(loc);
 
     SparseGridNode start = occupants[loc.getRow()];
 
@@ -86,11 +97,8 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
   @Override
   public E put(Location loc, Object obj)
   {
-    if (!isValid(loc))
-    {
-      throw new IllegalArgumentException("Location " + loc
-        + " is not valid");
-    }
+    checkForValidLocation(loc);
+
     if (obj == null)
     {
      throw new IllegalArgumentException("obj == null");
@@ -108,11 +116,7 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
   @Override
   public E remove(Location loc)
   {
-    if (!isValid(loc))
-    {
-      throw new IllegalArgumentException("Location " + loc
-        + " is not valid");
-    }
+    checkForValidLocation(loc);
 
   if (occupants[loc.getRow()] == null)
     {
@@ -142,4 +146,19 @@ public class SparseBoundedGrid<E> extends AbstractGrid<E> {
     return null;
   }
 
+  /**
+   * Check whether the location is valid or not
+   * @param loc 
+   *            the location to be checked
+   * @return true if the loc is valid,
+   *         false otherwise.
+   */
+  private void checkForValidLocation(Location loc)
+  {
+    if (!isValid(loc))
+    {
+      throw new IllegalArgumentException("Location " + loc
+        + " is not valid");
+    }
+  }
 }

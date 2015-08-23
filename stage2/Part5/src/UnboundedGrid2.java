@@ -4,6 +4,17 @@ import info.gridworld.grid.AbstractGrid;
 
 import java.util.ArrayList;
 
+/**
+ * class UnboundedGrid2
+ *
+ * The constructor allocates a 16 x 16 array. When a call is made to
+ * the put method with a row or column index that is outside the current
+ * array bounds, double both array bounds until they are large enough,
+ * construct a new square array with those bounds, and place the existing
+ * occupants into the new array.
+ *
+ * @author Shawn Dai
+ */
 public class UnboundedGrid2<E> extends AbstractGrid<E> {
 
   private Object[][] grid;
@@ -12,6 +23,7 @@ public class UnboundedGrid2<E> extends AbstractGrid<E> {
 
   public UnboundedGrid2()
   {
+    // the size is set 16 by default
   	this.size = SIZE;
     this.grid = new Object[this.size][this.size];
   }
@@ -72,8 +84,10 @@ public class UnboundedGrid2<E> extends AbstractGrid<E> {
     }
 
     E old;
+    // If the loc is out of the grid, expand the current grid
     if (checkForOverLocation(loc))
     {
+      // firstly, copy the original grid
       Object[][] big = new Object[this.size * 2][this.size * 2];
       for (int i = 0, lena = this.size; i < lena; i++)
       {
@@ -109,6 +123,13 @@ public class UnboundedGrid2<E> extends AbstractGrid<E> {
     return old;
   }
 
+  /**
+   * Check whether the location is valid or not
+   * @param loc
+   *            the location to be checked
+   * @return true if the loc is valid,
+   *         false otherwise.
+   */
   private void checkForValidLocation(Location loc)
   {
     if (!isValid(loc))
@@ -118,6 +139,13 @@ public class UnboundedGrid2<E> extends AbstractGrid<E> {
     }
   }
 
+  /**
+   * Check whether the location is out of the current grid
+   * @param loc
+   *            the location to be checked
+   * @return true if in the current grid,
+   *         false otherwise.
+   */
   private boolean checkForOverLocation(Location loc)
   {
     return loc.getRow() >= this.size || loc.getCol() >= this.size;

@@ -4,15 +4,26 @@ import info.gridworld.grid.AbstractGrid;
 import info.gridworld.grid.UnboundedGrid;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
+/**
+ * class SparseBoundedGrid3
+ * An implementation of BoundedGrid with the help of UnboundedGrid
+ *
+ * @author Shawn Dai
+ */
 public class SparseBoundedGrid3<E> extends AbstractGrid<E> {
 
   private UnboundedGrid<E> occupants;
   private int rows;
   private int cols;
 
+  /**
+   * Constructor
+   * @param rows
+   *             the grid max rows
+   * @param cols
+   *             the grid max columns
+   */
   public SparseBoundedGrid3(int rows, int cols)
   {
     if (rows <= 0)
@@ -25,6 +36,7 @@ public class SparseBoundedGrid3<E> extends AbstractGrid<E> {
     }
     this.rows = rows;
     this.cols = cols;
+    // use UnboundedGrid
     this.occupants = new UnboundedGrid<E>();
   }
 
@@ -56,11 +68,7 @@ public class SparseBoundedGrid3<E> extends AbstractGrid<E> {
   @Override
   public E get(Location loc)
   {
-    if (!isValid(loc))
-    {
-      throw new IllegalArgumentException("Location " + loc
-        + " is not valid");
-    }
+    checkForValidLocation(loc);
 
     return this.occupants.get(loc);
   }
@@ -68,11 +76,7 @@ public class SparseBoundedGrid3<E> extends AbstractGrid<E> {
   @Override
   public E put(Location loc, Object obj)
   {
-    if (!isValid(loc))
-    {
-      throw new IllegalArgumentException("Location " + loc
-        + " is not valid");
-    }
+    checkForValidLocation(loc);
 
     return this.occupants.put(loc, (E) obj);
   }
@@ -80,12 +84,24 @@ public class SparseBoundedGrid3<E> extends AbstractGrid<E> {
   @Override
   public E remove(Location loc)
   {
-    if (!isValid(loc))
-    {
-      throw new IllegalArgumentException("Location" + loc
-        + " is not valid");
-    }
+    checkForValidLocation(loc);
+
     return this.occupants.remove(loc);
   }
 
+  /**
+   * Check whether the location is valid or not
+   * @param loc
+   *            the location to be checked
+   * @return true if the loc is valid,
+   *         false otherwise.
+   */
+  private void checkForValidLocation(Location loc)
+  {
+    if (!isValid(loc))
+    {
+      throw new IllegalArgumentException("Location " + loc
+        + " is not valid");
+    }
+  }
 }

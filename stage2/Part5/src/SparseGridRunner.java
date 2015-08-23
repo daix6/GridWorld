@@ -22,8 +22,8 @@ public final class SparseGridRunner
     world.addGridClass("SparseBoundedGrid3");
     world.addGridClass("UnboundedGrid2");
     world.setGrid(new SparseBoundedGrid3<Actor>(10, 10));
-    world.add(new Location(2, 3), new Bug());
-    world.add(new Location(2, 2), new Critter());
+    world.add(new Location(5, 6), new Bug());
+    world.add(new Location(4, 3), new Critter());
     world.show();
   }
 }

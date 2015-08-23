@@ -25,6 +25,7 @@ public class SparseBoundedGrid1<E> extends AbstractGrid<E> {
     }
     this.rows = rows;
     this.cols = cols;
+    // Array can't store LinkedList...
     this.occupants = new ArrayList<LinkedList<OccupantInCol>>();
     for (int i = 0; i < rows; i++)
     {

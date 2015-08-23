@@ -70,7 +70,8 @@ public class MyIImageIO implements IImageIO {
   @Override
   public Image myWrite(Image image, String filePath)
   {
-    // http://docs.oracle.com/javase/7/docs/api/java/awt/image/RenderedImage.html
+    // http://docs.oracle.com/javase/7/docs/api/java/awt/Image.html
+    // http://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferedImage.html
     // http://docs.oracle.com/javase/7/docs/api/javax/imageio/ImageIO.html
     try
     {

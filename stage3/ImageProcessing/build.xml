@@ -1,4 +1,4 @@
-<project name="Image" basedir="." default="main">
+<project name="MyRunner" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />
@@ -30,10 +30,10 @@
     <target name="compile">
         <mkdir dir="${classes.dir}" />
         <copy todir="${classes.dir}">
-            <fileset dir="assets" />
+            <fileset dir="bmptest" />
         </copy>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
-        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" />
+        <!-- <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" /> -->
     </target>
 
     <target name="jar" depends="compile">

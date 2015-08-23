@@ -25,9 +25,6 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}" />
-        <!-- <copy todir="${classes.dir}">
-            <fileset dir="bmptest" />
-        </copy> -->
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
         <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath" /> 
     </target>
@@ -61,7 +58,7 @@
                 <fileset dir="${classes.dir}" includes="*Test.class" />
             </batchtest>
         </junit>
-        <delete dir="bmptest/" includes="result_?.bmp" />
+        <delete dir="bmptest/" includes="*_*.bmp" />
     </target>
 
     <target name="report" depends="junit">

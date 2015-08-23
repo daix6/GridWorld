@@ -13,37 +13,47 @@ import javax.imageio.ImageIO;
 
 public class MyIImageIO implements IImageIO {
 
+  public static final int HEADER_BITS = 14;
+  public static final int DIB_BITS = 40;
+
+  /**
+   * Read bmp picture byte by byte, using FileInputStream
+   * @param filePath the picture's path
+   * @return the Image Object of the bmp picture if no error,
+   *         null otherwise.
+   */
   @Override
   public Image myRead(String filePath)
   {
     try {
       FileInputStream fs = new FileInputStream(filePath);
       // read fileheader
-      byte[] header = new byte[14];
-      fs.read(header, 0, 14);
-
-      int bfSize = byteArrayToInt(header, 2, 4);
-
-      byte[] dib = new byte[40];
-      fs.read(dib, 0, 40);
+      byte[] header = new byte[HEADER_BITS];
+      fs.read(header, 0, HEADER_BITS);
+      // read dib
+      byte[] dib = new byte[DIB_BITS];
+      fs.read(dib, 0, DIB_BITS);
+      // get important infomations
       int biWidth = byteArrayToInt(dib, 4, 4);
       int biHeight = byteArrayToInt(dib, 8, 4);
       int biBitCount = byteArrayToInt(dib, 14, 2);
-      int biSizeImage = byteArrayToInt(dib, 20, 4);
       // biWidth * biHeight - 54 
+      int biSizeImage = byteArrayToInt(dib, 20, 4);
 
       if (biBitCount != 24)
       {
-        throw new IllegalArgumentException("Not 24!");
+        throw new IllegalArgumentException(
+          "I can't handle pictures with biBitCount that is not equal to 24!");
       }
 
+      // read color table
       int[] pixels = new int[biWidth * biHeight];
       byte[] rgbs = new byte[biSizeImage];
-
       fs.read(rgbs, 0, biSizeImage);
 
       int filling = (biSizeImage / biHeight) - biWidth * 3;
       int offsetRGB = 0;
+      // from the bottom to top, left to right
       for (int i = biHeight - 1; i >= 0; i--)
       {
         for (int j = 0; j < biWidth; j++)
@@ -51,22 +61,29 @@ public class MyIImageIO implements IImageIO {
           pixels[i * biWidth + j] = (0xFF << 24) | byteArrayToInt(rgbs, offsetRGB, 3);
           offsetRGB += 3;
         }
-        offsetRGB += filling; // default fill 0
+        // fill 0 at the end of each row
+        offsetRGB += filling;
       }
-      
+
       fs.close();
 
+      // create a new Image with infomations we get above
       return Toolkit.getDefaultToolkit().createImage(
                 new MemoryImageSource(biWidth, biHeight, pixels, 0, biWidth));
       // http://docs.oracle.com/javase/7/docs/api/java/awt/image/MemoryImageSource.html
     } catch (Exception e)
     {
-      e.printStackTrace();
       System.out.println("Exception in read IO");
+      return null;
     }
-    return null;
   }
 
+  /**
+   * Write the image to another file with specified filepath
+   * @param image the image to write
+   * @param filePath the path you want to save the picture
+   * @return the passed-in image
+   */
   @Override
   public Image myWrite(Image image, String filePath)
   {
@@ -82,13 +99,19 @@ public class MyIImageIO implements IImageIO {
       ImageIO.write(bImage, "bmp", new File(filePath));
     } catch (Exception e)
     {
-      e.printStackTrace();
       System.out.println("Exception in write IO");
     }
 
     return image;
   }
 
+  /**
+   * transform part of the bytes array to integer
+   * @param b the bytes array need to transform
+   * @param offset the start position to transform
+   * @param size the size need to transform
+   * @return the result after manipulation
+   */
   public int byteArrayToInt(byte[] b, int offset, int size)
   {
     int ret = 0;
@@ -97,10 +120,5 @@ public class MyIImageIO implements IImageIO {
       ret |= (b[i + offset] & 0xFF) << (i * 8);
     }
     return  ret;
-  }
-
-  public static void main(String[] args) {
-    MyIImageIO i = new MyIImageIO();
-    i.myWrite(i.myRead("./bmptest/1.bmp"), "./3.bmp");
   }
 }

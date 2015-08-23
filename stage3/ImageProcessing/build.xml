@@ -12,16 +12,12 @@
 
     <path id="classpath">
         <fileset dir="${lib.dir}" includes="**/*.jar" />
+        <path location='${classes.dir}' />
     </path>
 
     <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
 
-    <path id="test-cp">
-        <path refid='classpath' />
-        <path location='${classes.dir}' />
-    </path>
-
-    <property name="main-class"  value="AllBugsRunner" />
+    <property name="main-class"   value="${ant.project.name}" />
 
     <target name="clean">
         <delete dir="${build.dir}" />
@@ -33,7 +29,7 @@
             <fileset dir="bmptest" />
         </copy>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
-        <!-- <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="test-cp" /> -->
+        <javac srcdir="${test.dir}" destdir="${classes.dir}" classpathref="classpath" /> 
     </target>
 
     <target name="jar" depends="compile">
@@ -57,7 +53,7 @@
     <target name="junit" depends="compile">
         <mkdir dir="${report.dir}" />
         <junit printsummary="yes">
-            <classpath refid='test-cp' />
+            <classpath refid='classpath' />
             
             <formatter type="xml" />
             
@@ -66,7 +62,7 @@
             </batchtest>
         </junit>
     </target>
-    
+
     <target name="report" depends="junit">
         <junitreport todir="${report.dir}">
             <fileset dir="${report.dir}" includes="TEST-*.xml" />

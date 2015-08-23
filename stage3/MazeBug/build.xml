@@ -1,4 +1,4 @@
-<project name="info.gridworld.maze.MazeBugRunner" basedir="." default="main">
+<project name="MyMazeBugRunner" basedir="." default="main">
 
     <property name="src.dir"     value="src" />
     <property name="test.dir"    value="test" />
@@ -17,7 +17,7 @@
 
     <path id="application" location="${jar.dir}/${ant.project.name}.jar" />
 
-    <property name="main-class"   value="${ant.project.name}" />
+    <property name="main-class"   value="info.gridworld.maze.${ant.project.name}" />
 
     <target name="clean">
         <delete dir="${build.dir}" />

@@ -28,6 +28,9 @@ public class MyMazeBug extends Bug {
   // final message has been shown
   boolean hasShown = false;
 
+  // the counter for steps, NORTH, EAST, SOUTH, WEST (all the multiple of 90)
+  public int[] countKun = {0, 0, 0, 0};
+
   /**
    * Constructs a maze bug.
    */
@@ -126,24 +129,32 @@ public class MyMazeBug extends Bug {
   public void getNext()
   {
   	Grid<Actor> gr = getGrid();
-  	ArrayList<Location> locs = getValid(getLocation());
+    Location current = getLocation();
+  	ArrayList<Location> locs = getValid(current);
 
+    // If the end is around, move to!
+    int maxCount = -1, maxIndex;
     for (Location loc : locs)
     {
       Actor nextA = gr.get(loc);
+      maxIndex = current.getDirectionToward(loc) / Location.EAST;
+
       if (nextA instanceof Rock)
       {
         next = loc;
-        last = getLocation();
+        last = current;
         isEnd = true;
         return;
       }
-    }
 
-    int n = (int) (Math.random() * locs.size());
-    Location nextL = locs.get(n);
-    next = nextL;
-    last = getLocation();
+      // in the valids locs, find the next location with max times
+      if (countKun[maxIndex] > maxCount)
+      {
+        maxCount = countKun[maxIndex];
+        next = loc;
+        last = current;
+      }
+    }
   } 
 
   /**
@@ -166,7 +177,9 @@ public class MyMazeBug extends Bug {
       moveTo(next);
       stepCount++;
 
-      // construct the structure
+      countKun[last.getDirectionToward(next) / Location.EAST]++;
+
+      // construct the DFS structure for moveBack
       ArrayList<Location> currentNode = new ArrayList<Location>();
       currentNode.addAll(crossLocation.peek());
       currentNode.add(0, next);
@@ -193,8 +206,6 @@ public class MyMazeBug extends Bug {
       return;
     }
 
-    System.out.println(crossLocation.peek());
-
     crossLocation.pop();
     next = crossLocation.peek().get(0);
     last = getLocation();
@@ -208,6 +219,8 @@ public class MyMazeBug extends Bug {
     {
       removeSelfFromGrid();
     }
+
+    countKun[next.getDirectionToward(last) / Location.EAST]--;
 
     Flower flower = new Flower(getColor());
     flower.putSelfInGrid(gr, last);

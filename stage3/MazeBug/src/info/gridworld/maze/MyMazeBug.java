@@ -13,7 +13,7 @@ import java.util.ArrayList;import java.util.Stack;
 import javax.swing.JOptionPane;
 
 /**
- * A MazeBug can find its way in a maze with DFS. <br />
+ * A MazeBug can find its way in a maze with DFS.
  */
 public class MyMazeBug extends Bug {
   private Location next;

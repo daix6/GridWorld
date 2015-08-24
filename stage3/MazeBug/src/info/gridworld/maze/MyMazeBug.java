@@ -1,7 +1,6 @@
 package info.gridworld.maze;
 
 import info.gridworld.actor.Actor;
-import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.Bug;
 import info.gridworld.actor.Rock;
 import info.gridworld.actor.Flower;
@@ -9,9 +8,7 @@ import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Stack;
+import java.util.ArrayList;import java.util.Stack;
 
 import javax.swing.JOptionPane;
 
@@ -19,17 +16,17 @@ import javax.swing.JOptionPane;
  * A MazeBug can find its way in a maze with DFS. <br />
  */
 public class MyMazeBug extends Bug {
-  public Location next;
-  public Location last;
-  public boolean isEnd = false;
+  private Location next;
+  private Location last;
+  private  boolean isEnd = false;
   // the ArrayList<Location> records a path from the starting point to current location
-  public Stack<ArrayList<Location>> crossLocation = new Stack<ArrayList<Location>>();
-  public Integer stepCount = 0;
+  private  Stack<ArrayList<Location>> crossLocation = new Stack<ArrayList<Location>>();
+  private  Integer stepCount = 0;
   // final message has been shown
-  boolean hasShown = false;
+  private boolean hasShown = false;
 
   // the counter for steps, NORTH, EAST, SOUTH, WEST (all the multiple of 90)
-  public int[] countKun = {0, 0, 0, 0};
+  private  int[] countKun = {0, 0, 0, 0};
 
   /**
    * Constructs a maze bug.
@@ -52,9 +49,9 @@ public class MyMazeBug extends Bug {
 
     boolean willMove = canMove();
 
-    if (isEnd == true) {
+    if (isEnd) {
       // to show step count when reach the goal    
-      if (hasShown == false) {
+      if (!hasShown) {
         String msg = stepCount.toString() + " steps";
         JOptionPane.showMessageDialog(null, msg);
         hasShown = true;
@@ -66,8 +63,8 @@ public class MyMazeBug extends Bug {
       stepCount++;
     } else
     {
-    	moveBack();
-    	stepCount++;
+      moveBack();
+      stepCount++;
     }
   }
 
@@ -117,7 +114,7 @@ public class MyMazeBug extends Bug {
   public boolean canMove() {
     if (getValid(getLocation()).size() > 0)
     {
-    	return true;
+      return true;
     }
 
     return false;
@@ -128,9 +125,9 @@ public class MyMazeBug extends Bug {
    */
   public void getNext()
   {
-  	Grid<Actor> gr = getGrid();
+    Grid<Actor> gr = getGrid();
     Location current = getLocation();
-  	ArrayList<Location> locs = getValid(current);
+    ArrayList<Location> locs = getValid(current);
 
     // If the end is around, move to!
     int maxCount = -1, maxIndex;
@@ -189,6 +186,7 @@ public class MyMazeBug extends Bug {
       removeSelfFromGrid();
     }
 
+    // put flower as visited
     Flower flower = new Flower(getColor());
     flower.putSelfInGrid(gr, loc);
   }

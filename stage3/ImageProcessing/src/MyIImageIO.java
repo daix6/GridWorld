@@ -92,10 +92,17 @@ public class MyIImageIO implements IImageIO {
     // http://docs.oracle.com/javase/7/docs/api/javax/imageio/ImageIO.html
     try
     {
+      if (image instanceof BufferedImage)
+      {
+        return (BufferedImage) image;
+      }
+      // create a buffered image with RGB
       BufferedImage bImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+      // draw the image on to the buffered image
       Graphics2D g2d = bImage.createGraphics();
       g2d.drawImage(image, 0, 0, null);
       g2d.dispose();
+      // return the buffered image
       ImageIO.write(bImage, "bmp", new File(filePath));
     } catch (Exception e)
     {

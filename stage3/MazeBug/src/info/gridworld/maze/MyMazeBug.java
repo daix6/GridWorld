@@ -16,12 +16,13 @@ import java.util.Stack;
 import javax.swing.JOptionPane;
 
 /**
- * A MazeBug can find its way in a maze. <br />
+ * A MazeBug can find its way in a maze with DFS. <br />
  */
 public class MyMazeBug extends Bug {
   public Location next;
   public Location last;
   public boolean isEnd = false;
+  // the ArrayList<Location> records a path from the starting point to current location
   public Stack<ArrayList<Location>> crossLocation = new Stack<ArrayList<Location>>();
   public Integer stepCount = 0;
   // final message has been shown
@@ -38,6 +39,14 @@ public class MyMazeBug extends Bug {
    * Moves to the next location of the maze.
    */
   public void act() {
+    if (stepCount == 0)
+    {
+      last = getLocation();
+      ArrayList<Location> arr = new ArrayList<Location>();
+      arr.add(last);
+      crossLocation.push(arr);
+    }
+
     boolean willMove = canMove();
 
     if (isEnd == true) {
@@ -86,8 +95,8 @@ public class MyMazeBug extends Bug {
       }
 
       Actor nextA = gr.get(temp);
-      System.out.println(nextA);
-      if (nextA == null || (nextA instanceof Rock && nextA.getColor() == Color.RED))
+      // Flower is the flag of visited or not
+      if (nextA == null || (nextA instanceof Rock && nextA.getColor().equals(Color.RED)))
       {
         valid.add(temp);
       }
@@ -117,12 +126,24 @@ public class MyMazeBug extends Bug {
   public void getNext()
   {
   	Grid<Actor> gr = getGrid();
-  	ArrayList<Location> locs = getValid();
+  	ArrayList<Location> locs = getValid(getLocation());
 
     for (Location loc : locs)
     {
-    	Actor ac = gr.get(loc);
+      Actor nextA = gr.get(loc);
+      if (nextA instanceof Rock)
+      {
+        next = loc;
+        last = getLocation();
+        isEnd = true;
+        return;
+      }
     }
+
+    int n = (int) (Math.random() * locs.size());
+    Location nextL = locs.get(n);
+    next = nextL;
+    last = getLocation();
   } 
 
   /**
@@ -138,10 +159,18 @@ public class MyMazeBug extends Bug {
     }
 
     Location loc = getLocation();
+    getNext();
 
     if (gr.isValid(next)) {
       setDirection(getLocation().getDirectionToward(next));
       moveTo(next);
+      stepCount++;
+
+      // construct the structure
+      ArrayList<Location> currentNode = new ArrayList<Location>();
+      currentNode.addAll(crossLocation.peek());
+      currentNode.add(0, next);
+      crossLocation.push(currentNode);
     } else
     {
       removeSelfFromGrid();
@@ -157,6 +186,30 @@ public class MyMazeBug extends Bug {
    */
   public void moveBack()
   {
-  	return;
+    Grid<Actor> gr = getGrid();
+
+    if (gr == null || crossLocation.size() <= 1)
+    {
+      return;
+    }
+
+    System.out.println(crossLocation.peek());
+
+    crossLocation.pop();
+    next = crossLocation.peek().get(0);
+    last = getLocation();
+
+    if (gr.isValid(next))
+    {
+      setDirection(getLocation().getDirectionToward(next));
+      moveTo(next);
+      stepCount++;
+    } else
+    {
+      removeSelfFromGrid();
+    }
+
+    Flower flower = new Flower(getColor());
+    flower.putSelfInGrid(gr, last);
   }
 }

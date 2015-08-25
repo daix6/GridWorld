@@ -5,7 +5,7 @@ import java.io.IOException;
 import jigsaw.Jigsaw;
 import jigsaw.JigsawNode;
 
-public class RunnerPart2 {
+public class test {
   /**
    * @param args
    * @throws IOException 
@@ -17,15 +17,22 @@ public class RunnerPart2 {
       return;
     }
     
-    // destNode: {25,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,0};
+    int[] a = new int[50];
     JigsawNode destNode = new JigsawNode(new int[]{25,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,0});      
+    JigsawNode startNode;
+    for (int i = 0; i < 50; i++) {
+      startNode = Jigsaw.scatter(destNode, 1000);
+      Jigsaw jigsaw = new Jigsaw(startNode, destNode);
+      jigsaw.ASearch();
+      a[i] = jigsaw.getSearchedNodesNum();
+    }
 
-    JigsawNode startNode = Jigsaw.scatter(destNode, 1000);
-    //JigsawNode startNode = new JigsawNode(new int[]{19,8,7,9,23,10,3,19,5,4,14,2,20,11,6,15,22,13,16,0,1,21,12,18,24,17});
-
-    Jigsaw jigsaw = new Jigsaw(startNode, destNode);
-
-    jigsaw.ASearch();
+    int averge = 0;
+    for (int i = 0; i < 50; i++) {
+      averge += a[i];
+    }
+    System.out.println("Average: " + averge/50);
+    
   }
 
 }

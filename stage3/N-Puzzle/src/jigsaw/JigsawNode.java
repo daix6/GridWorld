@@ -29,8 +29,9 @@ public class JigsawNode {
       this.parent = null;
       this.estimatedValue = 0;
     } else
-      System.out.println("传入参数错误：当前的节点维数为3.请传入长度为" + (dimension * dimension + 1)
-          + "的节点状态数组，或者调整Jigsaw类中的节点维数dimension");
+      System.out.println("Wrong arguments. Current dimension is 3, please pass in "
+          + "a nodestates array of size" + (dimension * dimension + 1)
+          + ", or change the dimension");
   }
 
   /** Constructor

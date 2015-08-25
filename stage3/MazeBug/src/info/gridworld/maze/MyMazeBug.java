@@ -60,11 +60,9 @@ public class MyMazeBug extends Bug {
     {
       move();
       // increase step count when move 
-      stepCount++;
     } else
     {
       moveBack();
-      stepCount++;
     }
   }
 

@@ -309,8 +309,8 @@ public class Jigsaw {
       this.closeList.addElement(getCurrentJNode());
       searchedNodesNum++;
       
-      pw.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());
-      System.out.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());      
+      // pw.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());
+      // System.out.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());      
 
       followJNodes = findFollowJNodes(getCurrentJNode());
       while (!followJNodes.isEmpty()) {
@@ -319,16 +319,12 @@ public class Jigsaw {
       }
     }
     
-    this.printResult(pw);  // 记录搜索结果
-    pw.close();       // 关闭输出文件
+    this.printResult(pw);
+    pw.close();
     System.out.println("Record into " + filePath);
     return isCompleted;
   }
-  
-  /**（Demo+实验二）计算并修改状态节点jNode的代价估计值:f(n)=s(n)。
-   * s(n)代表后续节点不正确的数码个数
-   * @param jNode - 要计算代价估计值的节点；此函数会改变该节点的estimatedValue属性值。
-   */
+
   /**
    * Caculate the estimated value of jNode, and set the estimatedValue variable of the node.
    * @param jNode the node to estimate
@@ -336,7 +332,7 @@ public class Jigsaw {
   private void estimateValue(JigsawNode jNode) {
     // number of wrong position
     int s = getNumberOfWrong(jNode)
-            + getDistance(jNode)
+            + 2 * getDistance(jNode)
             + getNumberOfFollowingWrong(jNode);
 
     jNode.setEstimatedValue(s);

@@ -245,14 +245,29 @@ public class Jigsaw {
     String filePath = "./BFSearchDialog.txt";
     PrintWriter pw = new PrintWriter(new FileWriter(filePath));
 
+    isCompleted = false;
     // Write your code here.
-    this.openList.add(getBeginJNode());
+    sortedInsertOpenList(getBeginJNode());
 
-    while (this.openList.size() > 0) {
-      JigsawNode current = this.openList.firstElement();
-      if (current.equals(getEndJNode())) {
+    while (!this.openList.isEmpty()) {
+      this.currentJNode = this.openList.elementAt(0);
+      if (this.getCurrentJNode().equals(getEndJNode())) {
         isCompleted = true;
+        calSolutionPath();
         break;
+      }
+
+      this.openList.removeElementAt(0);
+      this.closeList.addElement(getCurrentJNode());
+      this.searchedNodesNum++;
+
+      pw.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());
+      System.out.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());      
+
+      Vector<JigsawNode> adjacent = findFollowJNodes(getCurrentJNode());
+      while (!adjacent.isEmpty()) {
+        this.openList.addElement(adjacent.elementAt(0));
+        adjacent.removeElementAt(0);
       }
     }
 
@@ -272,44 +287,34 @@ public class Jigsaw {
     // write to ASearchDialog.txt
     String filePath = "ASearchDialog.txt";
     PrintWriter pw = new PrintWriter(new FileWriter(filePath));
-    
-    // 访问节点数大于30000个则认为搜索失败
+
     int maxNodesNum = 30000;  
     
-    // 用以存放某一节点的邻接节点
     Vector<JigsawNode> followJNodes = new Vector<JigsawNode>(); 
-    
-    // 重置求解完成标记为false
+
     isCompleted = false;           
     
-    // (1)将起始节点放入openList中
     this.sortedInsertOpenList(this.beginJNode);
-    
-    // (2) 如果openList为空，或者访问节点数大于maxNodesNum个，则搜索失败，问题无解;否则循环直到求解成功
+
     while (this.openList.isEmpty() != true && searchedNodesNum <= maxNodesNum) {
       
-      // (2-1)访问openList的第一个节点N，置为当前节点currentJNode
-      //      若currentJNode为目标节点，则搜索成功，设置完成标记isCompleted为true，计算解路径，退出。
       this.currentJNode = this.openList.elementAt(0);
-      if (this.currentJNode.equals(this.endJNode)){
+      if (getCurrentJNode().equals(this.endJNode)){
         isCompleted = true;
         this.calSolutionPath();
         break;
       }
-      
-      // (2-2)从openList中删除节点N,并将其放入closeList中，表示以访问节点      
+         
       this.openList.removeElementAt(0);
-      this.closeList.addElement(this.currentJNode);
+      this.closeList.addElement(getCurrentJNode());
       searchedNodesNum++;
       
-        // 记录并显示搜索过程
-        pw.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + this.currentJNode.toString());
-        System.out.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + this.currentJNode.toString());      
+      pw.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());
+      System.out.println("Searching.....Number of searched nodes:" + this.closeList.size() + "   Current state:" + getCurrentJNode().toString());      
 
-      // (2-3)寻找所有与currentJNode邻接且未曾被访问的节点，将它们按代价估值从小到大排序插入openList中
-      followJNodes = this.findFollowJNodes(this.currentJNode);
+      followJNodes = findFollowJNodes(getCurrentJNode());
       while (!followJNodes.isEmpty()) {
-        this.sortedInsertOpenList(followJNodes.elementAt(0));
+        sortedInsertOpenList(followJNodes.elementAt(0));
         followJNodes.removeElementAt(0);
       }
     }
@@ -324,14 +329,57 @@ public class Jigsaw {
    * s(n)代表后续节点不正确的数码个数
    * @param jNode - 要计算代价估计值的节点；此函数会改变该节点的estimatedValue属性值。
    */
+  /**
+   * Caculate the estimated value of jNode, and set the estimatedValue variable of the node.
+   * @param jNode the node to estimate
+   */
   private void estimateValue(JigsawNode jNode) {
-    int s = 0; // 后续节点不正确的数码个数
-    int dimension = JigsawNode.getDimension();
-    for(int index =1 ; index<dimension*dimension; index++){
-      if(jNode.getNodesState()[index]+1!=jNode.getNodesState()[index+1])
-        s++;
-    }
+    // number of wrong position
+    int s = getNumberOfWrong(jNode)
+            + getDistance(jNode)
+            + getNumberOfFollowingWrong(jNode);
+
     jNode.setEstimatedValue(s);
+  }
+
+  private int getNumberOfWrong(JigsawNode jNode) {
+    int s = 0;
+    int dimension = JigsawNode.getDimension();
+    for (int index = 1; index <= dimension * dimension; index++) {
+      int temp = jNode.getNodesState()[index];
+      if (temp != index && temp != 0) {
+        s++;
+      }
+    }
+    return s;
+  }
+
+  private int getDistance(JigsawNode jNode) {
+    int s = 0;
+    int dimension = JigsawNode.getDimension();
+    for (int index = 1; index <= dimension * dimension; index++) {
+      int temp = jNode.getNodesState()[index];
+      if (temp != index && temp != 0) {
+        int rowS = (index - 1) / dimension;
+        int colS = (index - 1) % dimension;
+        int rowE = (temp - 1) / dimension;
+        int colE = (temp - 1) % dimension;
+        s += Math.abs(rowE - rowS) + Math.abs(colE - colS) - 1;
+      }
+    }
+
+    return s;
+  }
+
+  private int getNumberOfFollowingWrong(JigsawNode jNode) {
+    int s = 0;
+    int dimension = JigsawNode.getDimension();
+    for (int index = 1 ; index < dimension * dimension; index++) {
+      if (jNode.getNodesState()[index] + 1 != jNode.getNodesState()[index + 1]) {
+        s++;
+      }
+    }
+    return s;
   }
 
 }

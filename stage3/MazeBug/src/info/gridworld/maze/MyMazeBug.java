@@ -26,7 +26,7 @@ public class MyMazeBug extends Bug {
   private boolean hasShown = false;
 
   // the counter for steps, NORTH, EAST, SOUTH, WEST (all the multiple of 90)
-  private  int[] countKun = {0, 0, 0, 0};
+  private  int[] countKun = {1, 1, 1, 1};
 
   /**
    * Constructs a maze bug.
@@ -128,7 +128,7 @@ public class MyMazeBug extends Bug {
     ArrayList<Location> locs = getValid(current);
 
     // If the end is around, move to!
-    int maxCount = -1, maxIndex;
+    /*int maxCount = -1, maxIndex;
     for (Location loc : locs)
     {
       Actor nextA = gr.get(loc);
@@ -149,8 +149,33 @@ public class MyMazeBug extends Bug {
         next = loc;
         last = current;
       }
+    }*/
+
+    // If the end is around, move to!
+    ArrayList<Integer> forRandom = new ArrayList<Integer>();
+    for (Location loc : locs)
+    {
+      if (gr.get(loc) instanceof Rock)
+      {
+        next = loc;
+        last = current;
+        isEnd = true;
+        return;
+      }
+
+      int validDir = current.getDirectionToward(loc) / Location.EAST;
+      System.out.println(validDir);
+      for (int i = 0, lenA = countKun[validDir]; i < lenA; i++)
+      {
+        forRandom.add(validDir);
+      }
     }
-  } 
+
+    int chosed = forRandom.get((int) (Math.random() * forRandom.size()));
+
+    next = current.getAdjacentLocation(chosed * Location.EAST);
+    last = current;
+  }
 
   /**
    * Moves the bug forward, putting a flower into the location it previously

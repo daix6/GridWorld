@@ -7,7 +7,7 @@ import java.io.IOException;
  * @author Shawn Dai
  */
 public class JigsawNode {
-  private static final int dimension = 5;
+  private static final int dimension = 3;
   // 0th stores the position of emptyGrid
   // others store the value of corresponding position
   private int[] nodesState;
